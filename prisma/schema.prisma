@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id_user String @id @default(cuid())
+  firstname String
+  lastname String
+  email String @unique()
+  password String
+  otpCodes OtpCode[]
+}
+
+model OtpCode {
+  id String @id @default(cuid())
+  email String
+  code String
+  expiresAt DateTime
+  verified Boolean @default(false)
+  createdAt DateTime @default(now())
+  
+  user User? @relation(fields: [email], references: [email])
+  
+  @@index([email])
+  @@index([code])
+}
