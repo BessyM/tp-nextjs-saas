@@ -7,7 +7,6 @@ export async function POST(request: Request) {
   try {
     const { currentPassword, newPassword } = await request.json()
 
-    // Vérifier que l'utilisateur est authentifié avec Auth.js v5
     const session = await auth()
 
     if (!session?.user?.email) {
@@ -17,7 +16,6 @@ export async function POST(request: Request) {
       )
     }
 
-    // Récupérer l'utilisateur depuis la base de données
     const user = await prisma.user.findUnique({
       where: { email: session.user.email }
     })
@@ -29,7 +27,6 @@ export async function POST(request: Request) {
       )
     }
 
-    // Vérifier que le mot de passe actuel est correct
     const isPasswordValid = await bcrypt.compare(currentPassword, user.password)
 
     if (!isPasswordValid) {

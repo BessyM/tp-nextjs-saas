@@ -47,6 +47,11 @@ const ChangePassword: React.FC = () => {
         body: JSON.stringify({ currentPassword, newPassword })
       });
 
+    const data = await response.json();
+    
+    console.log('🔍 API Response:', data);
+    console.log('🔍 Status:', response.status);
+
       if (!response.ok) {
         throw new Error('Erreur lors du changement de mot de passe');
       }
